@@ -1,0 +1,3 @@
+Ajouté un "compte en banque à l'utilisateur (joueur)", pour que sa soit plus interactif et plus fun
+
+Si le joueur est à 0 euros alors il ne plus jouer
