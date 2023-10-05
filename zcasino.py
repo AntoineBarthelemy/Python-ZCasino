@@ -14,6 +14,7 @@ of your choice. Finnaly if, nothings match 😢 you loose your bets."""
 # Import modules
 import random
 import math
+import time
 
 
 
@@ -23,7 +24,7 @@ import math
 user_choice = input("Veuillez saisir un nombre compris entre 0 et 49 inclus ")
 pair_array = [0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48] # Array in Js or List in Python
 impair_array =[1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49] # Array in Js or List in Python
-
+bank_account = 1000
 
 
 
@@ -31,77 +32,88 @@ impair_array =[1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,4
 # Declaration of fonctions
 
 
-def value_comparaison (user_choice, paid_sum_user, result_game): # Fourth treatement
+
+
+def value_comparaison (user_choice, paid_sum_user, bank_account, result_game): # Fourth treatement
     global pair_array, impair_array
 
     if user_choice == result_game:
-        print(f"Vous avez gagné: {paid_sum_user * 3} euros, car lorsque la roue s'est arrêté, la bille était positionnée sur la case : {result_game}.  Votre crédit s'élève donc à : {(paid_sum_user *3) + paid_sum_user} euros.💵 ")
-        first_possibility = (paid_sum_user * 3) + paid_sum_user
+        print(f"Vous avez gagné: {paid_sum_user * 3} euros, car lorsque la roue s'est arrêté, la bille était positionnée sur la case : {result_game}.  Votre crédit s'élève donc à : {(paid_sum_user *3) + paid_sum_user + bank_account} euros.💵 ")
+        first_possibility = (paid_sum_user * 3) + paid_sum_user + bank_account
         
 
     elif user_choice in pair_array and result_game in pair_array or user_choice in impair_array and result_game in impair_array:
-        print(f"Vous avez gagné {math.ceil(paid_sum_user * 0.5) } euros, car lorsque la roue s'est arrêté, la bille était positionnée sur la case : {result_game}. Votre crédit s'élève donc à { (math.ceil(paid_sum_user * 0.5)) + paid_sum_user} euros.😁  ")
-        second_possibility = math.ceil((paid_sum_user * 0.5)) + paid_sum_user
+        print(f"Vous avez gagné {math.ceil(paid_sum_user * 0.5) } euros, car lorsque la roue s'est arrêté, la bille était positionnée sur la case : {result_game}. Votre crédit s'élève donc à { (math.ceil(paid_sum_user * 0.5)) + paid_sum_user + bank_account} euros.😁  ")
+        second_possibility = math.ceil((paid_sum_user * 0.5)) + paid_sum_user + bank_account
         
         
     else:
-        print(f"Vous avez perdu {paid_sum_user} euros, car lorsque la roue s'est arrêté, la bille était positionnée sur la case : {result_game}. Votre crédit s'élève donc à : {paid_sum_user - paid_sum_user} euros.😢")
-        third_possibility = paid_sum_user - paid_sum_user
+        print(f"Vous avez perdu {paid_sum_user} euros, car lorsque la roue s'est arrêté, la bille était positionnée sur la case : {result_game}. Votre crédit s'élève donc à : {bank_account - paid_sum_user} euros.😢")
+        third_possibility = bank_account - paid_sum_user
        
         
-    pass
+  
 
-def game_start (user_choice, paid_sum_user): # Third treatement
+def game_start (user_choice, paid_sum_user, bank_account): # Third treatement
     while True:
         display_game = input("Le croupier fait tourner la roulette et lâche la bille ... [press Q for see the result] ")
         
         if display_game == "Q":
             result_game = random.randint(0,49) # Local variable
-            value_comparaison(user_choice, paid_sum_user, result_game)
+            value_comparaison(user_choice, paid_sum_user, bank_account, result_game)
+           
             break 
 
         else:
             continue
-    pass
+    
 
 
-def paid_sum (user_choice): # Second treatement
-    paid_sum_user = input("Veuillez saisir la somme que vous souhaitez miser. ") # Local variable
+def paid_sum (user_choice, bank_account): # Second treatement
+    paid_sum_user = input(f"Veuillez saisir la somme que vous souhaitez miser (crédit: {bank_account}). ") # Local variable
 
     try:
         paid_sum_user = int(paid_sum_user)
-        if paid_sum_user > 0 and paid_sum_user <= 9999999:
-            print(f"Vous avez choisi : {paid_sum_user}")
-            game_start(user_choice, paid_sum_user)
+        if paid_sum_user > 0 and paid_sum_user <= bank_account:
+            print(f"Vous avez choisi : {paid_sum_user} euros sur votre compte actuelle qui s'éléve à {bank_account} euros")
+            game_start(user_choice, paid_sum_user, bank_account)
 
         else:
           raise ValueError
         
     except ValueError:
-        print("La valeur saisi n'est pas correcte.")
+        print(f"La valeur saisi n'est pas correcte. Veuillez réessayer ...")
+        time.sleep(2)
+        paid_sum(user_choice, bank_account)
+        
+        
 
-    pass
+   
 
 
-def choice_number (user_choice): # First treatement
+def choice_number (user_choice, bank_account): # First treatement
+    # assert bank_account != 0
+
 
     try:
         user_choice = int(user_choice)
+        print(bank_account)
 
         if user_choice <= 49 and user_choice >= 0:
             print(f"Vous avez choisi : {user_choice}")
-            paid_sum(user_choice)
+            paid_sum(user_choice, bank_account)
             
         else:
             raise ValueError
         
         
     except ValueError:
-        print("La valeur saisi ne correspond pas aux critères demandés.")
+        print("La valeur saisi ne correspond pas aux critères demandés")
+       
 
 # Call to the function in the global area
 
-choice_number(user_choice)
+choice_number(user_choice, bank_account)
 
 
 

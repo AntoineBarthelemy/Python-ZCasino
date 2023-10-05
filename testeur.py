@@ -1,8 +1,6 @@
-import math
+import time
 
-a = 1.5
+print("helllo")
 
-help(math.ceil)
-
-x = math.ceil(a)
-print(x)
+time.sleep(2)
+print("coucou")

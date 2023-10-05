@@ -1,3 +1,6 @@
 Ajouté un "compte en banque à l'utilisateur (joueur)", pour que sa soit plus interactif et plus fun
 
 Si le joueur est à 0 euros alors il ne plus jouer
+
+Il faut ajouter une valeur dynamique au portefeuille (compte en banque de l'utilsateur), pour que lorsque qu'il rejoue au jeu.
+Son compte ne soit pas rénitialiser à la valeur par défaut de la variable bank_account = 1000
